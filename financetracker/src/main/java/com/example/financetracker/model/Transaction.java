@@ -1,4 +1,12 @@
-namespace DefaultNamespace;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Data;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 
 public class Transaction_java
 {
@@ -13,7 +21,7 @@ public class Transaction_java
     import java.time.LocalDate;
 
     @Entity
-        @Data
+    @Data
     public class Transaction {
 
         @Id
