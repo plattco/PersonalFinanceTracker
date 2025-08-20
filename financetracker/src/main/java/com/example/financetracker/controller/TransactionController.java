@@ -4,6 +4,8 @@ import com.example.financetracker.model.Transaction;
 import com.example.financetracker.repository.TransactionRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -59,5 +61,14 @@ public class TransactionController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    public ResponseEntity<BigDecimal> caulculateCheckingAmount(){
+        List<Transaction>  transactions = transactionRepository.findAll();
+        BigDecimal amount = BigDecimal.valueOf(0.000000);
+        for(Transaction transaction : transactions){
+            amount = amount.add(transaction.getAmount());
+        }
+        return ResponseEntity.ok(amount);
     }
 }
