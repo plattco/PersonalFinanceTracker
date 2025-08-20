@@ -1,6 +1,7 @@
 package com.example.financetracker.controller;
 
 import com.example.financetracker.model.Transaction;
+import com.example.financetracker.repository.CheckingRepository;
 import com.example.financetracker.repository.TransactionRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +18,11 @@ import java.util.Optional;
 public class TransactionController {
 
     private final TransactionRepository transactionRepository;
+    private final CheckingRepository checkingRepository;
 
-    public TransactionController(TransactionRepository transactionRepository) {
+    public TransactionController(TransactionRepository transactionRepository, CheckingRepository checkingRepository) {
         this.transactionRepository = transactionRepository;
+        this.checkingRepository = checkingRepository;
     }
 
     @GetMapping
@@ -64,11 +67,6 @@ public class TransactionController {
     }
 
     public ResponseEntity<BigDecimal> caulculateCheckingAmount(){
-        List<Transaction>  transactions = transactionRepository.findAll();
-        BigDecimal amount = BigDecimal.valueOf(0.000000);
-        for(Transaction transaction : transactions){
-            amount = amount.add(transaction.getAmount());
-        }
-        return ResponseEntity.ok(amount);
+        return ResponseEntity.ok(checkingRepository.getAmount());
     }
 }
